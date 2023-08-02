@@ -1,0 +1,36 @@
+cabal-version:      3.4
+name:               jq-optics
+version:            0.0.0.0
+synopsis:           A toy jq implementation using optics
+license:            ISC
+license-file:       LICENSE
+author:             Naïm Favier
+maintainer:         n@monade.li
+build-type:         Simple
+tested-with:        GHC == 9.2.8
+
+common main
+    hs-source-dirs: src
+    default-language: GHC2021
+    default-extensions:
+        BlockArguments,
+        LambdaCase,
+    ghc-options: -Wall -Wno-missing-signatures
+    build-depends:
+        aeson >= 2.1,
+        base >= 4.15,
+        bytestring,
+        lens,
+        lens-aeson,
+        scientific,
+        text,
+        vector,
+
+library
+    import: main
+    exposed-modules: JQ
+
+executable jq
+    import: main
+    main-is: Main.hs
+    build-depends: jq-optics
