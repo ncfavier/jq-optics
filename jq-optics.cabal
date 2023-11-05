@@ -34,3 +34,4 @@ executable jq
     import: main
     main-is: Main.hs
     build-depends: jq-optics
+    other-modules: JQ

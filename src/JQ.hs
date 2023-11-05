@@ -130,7 +130,7 @@ jq env = \case
   a :* b -> folding \ s -> liftA2 mul (s ^.. jq env a) (s ^.. jq env b)
   a :/ b -> folding \ s -> liftA2 divide (s ^.. jq env a) (s ^.. jq env b)
   a :% b -> folding \ s -> liftA2 modulo (s ^.. jq env a) (s ^.. jq env b)
-  a :// b -> visiting \ s -> [if all undef (s ^.. jq env a) then jq env b else jq env a . filtered (not . undef)]
+  a :// b -> visiting \ s -> [if any defined (s ^.. jq env a) then jq env a . filtered defined else jq env b]
   If cond yes no -> visiting (toListOf (jq env cond . to (\ b -> jq env (if truthy b then yes else no))))
   Length -> to (J.Number . fromIntegral . length')
   Type -> to (J.String . type')
@@ -190,9 +190,9 @@ jq env = \case
   truthy J.Null = False
   truthy (J.Bool b) = b
   truthy v = error (type' v <> " has no truth value")
-  undef J.Null = True
-  undef (J.Bool False) = True
-  undef _ = False
+  defined J.Null = False
+  defined (J.Bool False) = False
+  defined _ = True
   length' J.Null = 0
   length' (J.String s) = T.length s
   length' (J.Array a) = length a
