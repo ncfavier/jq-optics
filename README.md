@@ -2,9 +2,6 @@
 
 A toy implementation of the [jq](https://jqlang.github.io/jq/) language using optics.
 
-> [!WARNING]
-> This is a work in progress. There is no parser yet, let alone a CLI. The source code might be hard to understand if you're not already familiar with [lens](https://github.com/ekmett/lens/).
-
 ```haskell
 jq :: Env -> Filter -> IndexedJourney' Path Value Value
 ```
@@ -31,3 +28,5 @@ So a journey takes an initial value and produces a series of "interaction points
 > - Assignment is sequential, i.e. `(a, b) = c` is equivalent to `(a = c) | (b = c)`. See `[0, 2, 3] | (.[.[0]], .[.[0]]) = 1`. On the other hand, this means that `.[a, b]` is not in general equivalent to `.[a], .[b]`.
 > - `|=` has cartesian product semantics instead of jq's behaviour, which is to take the first produced value, or delete the entry if no values are produced.
 > - Assigning to a non-path-expression is a no-op instead of an error.
+>
+> Also, there's no parser.
